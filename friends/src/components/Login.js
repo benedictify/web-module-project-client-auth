@@ -2,22 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const initCredentials = {
-	username: 'lambda',
-	password: 'school'
+	username: '',
+	password: ''
 }
 
-const Login = () => {
+const Login = (props) => {
 	const [credentials, setCredentials] = useState(initCredentials);
-	const [loading, setLoading] = useState(false);
-
-	// login form
-	// username input - handleChange
-	// password input - ''
-	// submit button - handleSubmit
-	// call server with login post request
-	// "loading" state
-	// save token
-	// redirect user
 
 	const handleChange = (e) => {
 		setCredentials({
@@ -28,26 +18,21 @@ const Login = () => {
 
 	const loginSubmit = (e) => {
 		e.preventDefault();
-		
-		setLoading(true);
 
-		axios.post("http://localhost:5001/api/login", { username: credentials.username, password: credentials.password })
+		axios.post("http://localhost:5001/api/login", credentials)
 			.then(response => {
-				// localStorage.setItem('token', response.data.token)
-				console.log(response.data)
+				localStorage.setItem('token', response.data.token)
+				props.history.push('/friends')
 			})
 			.catch(error => {
 				console.log(error)
 			})
-
-		setLoading(false);
 	}
 
 	return (
 		<div>
+			<h1>Login Page</h1>
 			<form onSubmit={loginSubmit}>
-				<h1>Login Page</h1>
-
 				<input
 					type="text"
 					name="username"

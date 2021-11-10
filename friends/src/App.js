@@ -21,6 +21,7 @@ function App() {
 				<div>
 					<Switch>
 						<Route path="/login" component={Login} />
+						<Route path="/friends" component={FriendsList} />
 						<Route exact path="/" component={Home} />
 					</Switch>
 				</div>

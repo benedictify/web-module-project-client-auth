@@ -26,17 +26,20 @@ const Login = () => {
 		})
 	}
 
-	const loginSubmit = () => {
+	const loginSubmit = (e) => {
+		e.preventDefault();
+		
 		setLoading(true);
 
-		axios.post("http://localhost:5000/api/login", credentials)
+		axios.post("http://localhost:5001/api/login", { username: credentials.username, password: credentials.password })
 			.then(response => {
-				localStorage.setItem('token', response.data.token)
+				// localStorage.setItem('token', response.data.token)
+				console.log(response.data)
 			})
 			.catch(error => {
 				console.log(error)
 			})
-			
+
 		setLoading(false);
 	}
 

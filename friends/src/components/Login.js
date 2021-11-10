@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const initCredentials = {
-	username: '',
-	password: ''
+	username: 'lambda',
+	password: 'school'
 }
 
 const Login = (props) => {
 	const [credentials, setCredentials] = useState(initCredentials);
+	const [loading, setLoading] = useState(false);
 
 	const handleChange = (e) => {
 		setCredentials({
@@ -18,15 +19,19 @@ const Login = (props) => {
 
 	const loginSubmit = (e) => {
 		e.preventDefault();
+		
+		setLoading(true);
 
 		axios.post("http://localhost:5001/api/login", credentials)
 			.then(response => {
-				localStorage.setItem('token', response.data.token)
-				props.history.push('/friends')
+				localStorage.setItem('token', response.data.payload);
+				props.history.push('/friends');
 			})
 			.catch(error => {
-				console.log(error)
+				console.log(error);
 			})
+			
+		setLoading(false);
 	}
 
 	return (
@@ -39,16 +44,17 @@ const Login = (props) => {
 					placeholder="Username"
 					value={credentials.username}
 					onChange={handleChange}
-				/>
+					/>
 				<input
-					type="text"
+					type="password"
 					name="password"
 					placeholder="Password"
 					value={credentials.password}
 					onChange={handleChange}
-				/>
-				<button>Submit</button>
+					/>
+				<button>Log In</button>
 			</form>
+			{loading && <h2>Loading...</h2>}
 		</div>
 	)
 }

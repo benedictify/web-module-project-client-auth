@@ -1,4 +1,4 @@
-import React/* , { useState }  */from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const initCredentials = {
@@ -7,35 +7,62 @@ const initCredentials = {
 }
 
 const Login = () => {
-	// const [credentials, setCredentials] = useState(initCredentials);
+	const [credentials, setCredentials] = useState(initCredentials);
+	const [loading, setLoading] = useState(false);
 
 	// login form
 	// username input - handleChange
 	// password input - ''
 	// submit button - handleSubmit
-		// call server with login post request
-			// "loading" state
-		// save token
-		// redirect user
+	// call server with login post request
+	// "loading" state
+	// save token
+	// redirect user
+
+	const handleChange = (e) => {
+		setCredentials({
+			...credentials,
+			[e.target.name]: e.target.value
+		})
+	}
 
 	const loginSubmit = () => {
-		axios.post("http://localhost:5000/api/login", initCredentials)
+		setLoading(true);
+
+		axios.post("http://localhost:5000/api/login", credentials)
 			.then(response => {
-				console.log(response.data);
-				// localStorage.setItem('token', response.data.token)
+				localStorage.setItem('token', response.data.token)
 			})
 			.catch(error => {
 				console.log(error)
 			})
+			
+		setLoading(false);
 	}
 
 	return (
 		<div>
 			<form onSubmit={loginSubmit}>
 				<h1>Login Page</h1>
-				<button type="submit">Submit</button>
+
+				<input
+					type="text"
+					name="username"
+					placeholder="Username"
+					value={credentials.username}
+					onChange={handleChange}
+				/>
+				<input
+					type="text"
+					name="password"
+					placeholder="Password"
+					value={credentials.password}
+					onChange={handleChange}
+				/>
+				<button>Submit</button>
 			</form>
 		</div>
-)}
+	)
+}
 
 export default Login;

@@ -1,16 +1,23 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 const Login = () => {
-	return (<h2>Login</h2>)
+	return (<h1>Login</h1>)
 }
 
 function App() {
 	return (
 		<div className="App">
-			<h2>Client Auth Project</h2>
+			<h1>Circle of "Friends"</h1>
+			<div>
+				<Link to="/login">Login</Link>
+			</div>
+			<div>
+				<Switch>
+					<Route path="/login" component={LoginForm}/>
+				</Switch>
+			</div>
 		</div>
 	);
 }
